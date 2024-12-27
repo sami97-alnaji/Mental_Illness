@@ -1,9 +1,11 @@
 import java.util.Properties // Add this import for the Properties class
 
 plugins {
-    id("com.android.application")
+//    id 'com.google.gms.google-services' version '4.4.2' apply false
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
     id("kotlin-android")
-    id("com.google.gms.google-services") // Google services plugin
+
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -54,7 +56,7 @@ android {
 
 dependencies {
     // استيراد Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:33.2.0')
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
 
     // إضافة Firebase Analytics
     implementation 'com.google.firebase:firebase-analytics'

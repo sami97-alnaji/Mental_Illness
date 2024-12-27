@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpPatientPage extends StatefulWidget {
   const SignUpPatientPage({super.key});
@@ -13,6 +15,9 @@ class _SignUpPatientPageState extends State<SignUpPatientPage> {
   bool _isCodeSent = false; // لتتبع حالة إرسال الكود
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _verificationCodeController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  var user;
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +79,25 @@ class _SignUpPatientPageState extends State<SignUpPatientPage> {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      // Logic for Google Sign Up
+                    onPressed: () async {
+                      try {
+                        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                        if (googleUser == null) {
+                           null; // إذا تم إلغاء تسجيل الدخول
+                        }
+
+                        final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                        final AuthCredential credential = GoogleAuthProvider.credential(
+                          accessToken: googleAuth.accessToken,
+                          idToken: googleAuth.idToken,
+                        );
+
+                        final UserCredential userCredential = await _auth.signInWithCredential(credential);
+                        user = userCredential.user;
+                      } catch (e) {
+                        print("Error: $e");
+
+                      }
                     },
                     icon: const Icon(Icons.login, color: Colors.white),
                     label: const Text('Continue with Google'),
