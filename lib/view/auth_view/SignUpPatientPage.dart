@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -83,7 +84,7 @@ class _SignUpPatientPageState extends State<SignUpPatientPage> {
                       try {
                         final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
                         if (googleUser == null) {
-                           null; // إذا تم إلغاء تسجيل الدخول
+                          print(" GoogleSignInAuthentication  === null");
                         }
 
                         final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
@@ -91,31 +92,26 @@ class _SignUpPatientPageState extends State<SignUpPatientPage> {
                           accessToken: googleAuth.accessToken,
                           idToken: googleAuth.idToken,
                         );
+                       // FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.instance;
+                       // String? appCheckToken = await firebaseAppCheck.getToken();
 
+                       //  print(" GoogleSignInAuthentication  appCheckToken: $appCheckToken");
                         final UserCredential userCredential = await _auth.signInWithCredential(credential);
                         user = userCredential.user;
+                        print('GoogleSignInAuthentication  Signed in as: ${user.displayName}');
                       } catch (e) {
-                        print("Error: $e");
+                        print(" GoogleSignInAuthentication  Error: $e");
 
                       }
                     },
                     icon: const Icon(Icons.login, color: Colors.white),
-                    label: const Text('Continue with Google'),
+                    label: const Text('Continue eeeee333 with Google'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // لون زر Google
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Logic for Facebook Sign Up
-                    },
-                    icon: const Icon(Icons.facebook, color: Colors.white),
-                    label: const Text('Continue with Facebook'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // لون زر Facebook
-                    ),
-                  ),
+
                 ],
               ),
             ),

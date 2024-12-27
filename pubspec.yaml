@@ -19,6 +19,7 @@ dependencies:
   google_sign_in: ^6.2.2 # تأكد من استخدام أحدث إصدار
   sqflite: ^2.0.0+3
   path: ^1.8.0
+  firebase_app_check: ^0.3.1+7
 
   syncfusion_flutter_charts: ^27.1.51
   table_calendar: ^3.0.0
